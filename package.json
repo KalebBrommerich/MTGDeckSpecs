@@ -1,0 +1,18 @@
+{
+  "name": "mtgdeckspecs",
+  "version": "1.0.0",
+  "description": "A basic web app that can give you specs about a deck you input\r The main idea is to create a tool that can automatically get the lowest prices of each card in a deck that you input\r More features will be added later",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.8.4",
+    "express": "^5.1.0",
+    "fs": "^0.0.1-security",
+    "path": "^0.12.7"
+  }
+}
