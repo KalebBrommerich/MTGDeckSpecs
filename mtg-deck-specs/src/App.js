@@ -7,9 +7,19 @@ function App() {
   let [results, setResults] = useState([]);
   let [loading, setLoading] = useState(false);
 
+   const updateData = async () => {
+    try {
+      const response = await axios.post('/data');
+      alert('Data updated successfully');
+    }catch (err) {
+      alert('Error updating data');
+      console.error(err);
+    }
+   };
+
   const searchCards = async () => {
     const cardNames = input
-      .split(/\n|,/)
+      .split(/\n/)
       .map(name => name.trim())
       .filter(Boolean);
     console.log(cardNames)
@@ -17,8 +27,7 @@ function App() {
 
     try {
       console.log(cardNames)
-      const response =  await axios.post('/card', cardNames);
-      console.log(response)
+      const response = await axios.post('/card', cardNames);
       console.log(response.data)
       setResults(response.data);
     } catch (err) {
@@ -33,7 +42,8 @@ function App() {
     <div className="App">
       <h1>Magic Card Finder</h1>
       <textarea
-        rows={6}
+        rows={100}
+        cols={50}
         value={input}
         onChange={e => setInput(e.target.value)}
         placeholder="Enter card names (comma or newline separated)"
@@ -42,17 +52,22 @@ function App() {
       <button onClick={searchCards} disabled={loading}>
         {loading ? 'Searching...' : 'Find Cards'}
       </button>
-
+      <button onClick={updateData} disabled={loading}>
+        {'Update Data'}
+      </button>
       {results.length > 0 && (
         <div className="results">
           <h2>Results ({results.length})</h2>
-          {results.map(card => (
-            <div key={card.id} className="card">
-              <strong>{card.name}</strong> — {card.set_name} — ${card.prices?.usd ?? 'N/A'}
-            </div>
-          ))}
+          {
+            results.map((card, index) => (
+              <div key={index} className="card">
+                <strong>{card[0]}</strong> — {card[1]} — ${card[2] ?? 'N/A'}
+              </div>
+            ))
+          }
         </div>
       )}
+
     </div>
   );
 }
