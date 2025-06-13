@@ -41,7 +41,7 @@ const filePath = "./Backend/data.json";
     console.log(`Found ${results.length} matching cards:`);
     results.forEach(card => {
       price = Math.min(card.prices?.usd ?? Infinity, card.prices?.usd_foil ?? Infinity, card.prices?.usd_etched ?? Infinity)
-      cardList.push([card.name, card.set, price]);
+      cardList.push([card.name, card.set.toUpperCase(), price]);
     });
     tempList = []
     cardList.sort()
