@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import './App.css';
+import CopyButton from './functions';
 
 function App() {
   let [input, setInput] = useState('');
@@ -22,14 +23,11 @@ function App() {
       .split(/\n/)
       .map(name => name.trim())
       .filter(Boolean);
-    console.log(cardNames)
     if (cardNames.length === 0) return;
 
     try {
       setLoading(true);
-      console.log(cardNames)
       const response = await axios.post('/card', cardNames);
-      console.log(response.data)
       setResults(response.data);
     } catch (err) {
       alert('Error searching cards');
@@ -41,7 +39,6 @@ function App() {
   const TotalPrice = () => {
     // Calculate total price
     let total = 0;
-    console.log(results)
     results.forEach(card => {
       console.log(card)
       total += parseFloat(card[2]) ?? 0; // Add price if available, otherwise add 0
@@ -50,15 +47,13 @@ function App() {
     return "$" + total;
 
   };
+  
   return (
     <div class="root">
       <h1 class="header">Magic Card Finder</h1>
     <div className="app">
       <div class="left-container">
-        <div class="search-bar">
-          <input type="text" placeholder="Enter card name..." />
-          <button>Find Cards</button>
-        </div >
+
         <textarea
           rows={10}
           cols={50}
@@ -77,7 +72,10 @@ function App() {
        <div class="right-container">
       {results.length > 0 && (
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center',  width: 'fit-content', float:'center' }}>
+          <div style={{display:'flex', width:'100%', alignItems:'center', justifyContent:'space-between'}}>
           <h2>Results ({results.length}) {TotalPrice()}</h2>
+          <CopyButton textToCopy={results}   />
+          </div>
           {
             results.map((card, index) => (
               <div style={{display:'flex', width:'100%'}} key={index} className="card">
